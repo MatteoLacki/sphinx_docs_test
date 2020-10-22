@@ -10,10 +10,13 @@ upload_pypi:
 	python setup.py sdist
 	twine upload dist/* 
 docs: clean_docs
-	mkdir sphinx
+	mkdir -p sphinx
+	mkdir -p docs || True
+	touch docs/.nojekyll
 	sphinx-quickstart sphinx --sep --project TestDocs --author MatteoLacki -v 0.0.1 --ext-autodoc --ext-githubpages --extensions sphinx.ext.napoleon --extensions recommonmark --makefile -q --no-batchfile
 	sphinx-apidoc -f -o sphinx/source sphinx_docs_test
 	cd sphinx && make html
-	ln -s sphinx/build/html docs
+	ln -s sphinx/build/html/* docs
 clean_docs:
 	rm -rf sphinx
+	rm -rf docs
